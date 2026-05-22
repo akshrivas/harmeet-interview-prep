@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Command Center — Interview War Room</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <div id="header"></div>
+    <div id="readiness"></div>
+    <div id="stats" style="margin:1rem 0"></div>
+
+    <h2 class="section-title">Today's Mission</h2>
+    <div class="card" id="mission"></div>
+
+    <h2 class="section-title">Weak Areas</h2>
+    <div class="card" id="weaknesses"></div>
+
+    <h2 class="section-title">Week 1 — Operations</h2>
+    <div class="day-grid" id="day-grid"></div>
+
+    <p style="margin-top:2rem;text-align:center">
+      <a class="btn btn--primary" href="mock.html">Launch Mock Interview</a>
+    </p>
+  </div>
+  <script src="data/meta.js"></script>
+  <script src="data/days-index.js"></script>
+  <script src="data/day-01.js"></script>
+  <script src="data/day-02.js"></script>
+  <script src="data/day-03.js"></script>
+  <script src="data/day-04.js"></script>
+  <script src="data/day-05.js"></script>
+  <script src="data/day-06.js"></script>
+  <script src="data/day-07.js"></script>
+  <script src="data/mock-packs.js"></script>
+  <script src="storage.js"></script>
+  <script src="app.js"></script>
+  <script>InterviewWarRoom.App.init('dashboard');</script>
+</body>
+</html>

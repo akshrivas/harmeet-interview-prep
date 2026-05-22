@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Interview War Room</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <div id="header"></div>
+    <section class="hero">
+      <h1>Personal Interview War Room</h1>
+      <p>Senior frontend interview command center. Week 1 offline coaching — JavaScript, React, mocks, and readiness scoring.</p>
+      <div id="index-stats" class="card" style="max-width:320px;margin:0 auto 1.5rem"></div>
+      <p>
+        <a class="btn btn--primary" href="dashboard.html">Enter Command Center</a>
+        <a class="btn" href="mock.html">Start Mock Round</a>
+      </p>
+    </section>
+  </div>
+  <script src="data/meta.js"></script>
+  <script src="data/days-index.js"></script>
+  <script src="data/day-01.js"></script>
+  <script src="data/day-02.js"></script>
+  <script src="data/day-03.js"></script>
+  <script src="data/day-04.js"></script>
+  <script src="data/day-05.js"></script>
+  <script src="data/day-06.js"></script>
+  <script src="data/day-07.js"></script>
+  <script src="data/mock-packs.js"></script>
+  <script src="storage.js"></script>
+  <script src="app.js"></script>
+  <script>
+    document.getElementById('header').innerHTML = InterviewWarRoom.Render.header('index');
+    InterviewWarRoom.App.init('index');
+  </script>
+</body>
+</html>
