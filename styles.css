@@ -444,6 +444,107 @@ img {
   border-bottom: 1px solid var(--border);
 }
 
+.day-flow-hint {
+  font-size: 0.875rem;
+  color: var(--muted);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin: 0 0 1rem;
+}
+
+.topic-list--deep .topic-deep {
+  padding: 1rem 0 1.25rem;
+}
+
+.topic-deep__title {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 0.35rem;
+}
+
+.topic-deep__summary {
+  color: var(--muted);
+  font-size: 0.875rem;
+  margin: 0 0 0.75rem;
+}
+
+.topic-deep__block {
+  margin: 0.65rem 0 0;
+  font-size: 0.875rem;
+}
+
+.topic-deep__block h4 {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  margin: 0 0 0.35rem;
+}
+
+.topic-deep__block ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.topic-deep__hint {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin: 0.5rem 0 0;
+}
+
+.resource-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.resource-list li {
+  border: none;
+  padding: 0.35rem 0;
+}
+
+.resource-link {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 0.875rem;
+}
+
+.resource-link:hover {
+  text-decoration: underline;
+}
+
+.resource-link--youtube {
+  color: #f07178;
+}
+
+.deliverable-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.15rem;
+  margin-bottom: 1rem;
+}
+
+.deliverable-card h3 {
+  margin: 0 0 0.75rem;
+}
+
+.deliverable-card h4 {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin: 1rem 0 0.4rem;
+}
+
+.deliverable-card ul {
+  margin: 0;
+  padding-left: 1.2rem;
+  font-size: 0.875rem;
+}
+
 /* Coaching question */
 .q-card {
   background: var(--surface);

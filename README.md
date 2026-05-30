@@ -4,7 +4,9 @@ Senior frontend interview command center (vanilla HTML/CSS/JS, offline-capable).
 
 ## Live app
 
-After GitHub Pages deploy: **https://akshrivas.github.io/harmeet-interview-prep/**
+**Vercel (public):** https://harmeet-interview-prep.vercel.app/
+
+**GitHub Pages (if enabled):** https://akshrivas.github.io/harmeet-interview-prep/
 
 ## Local use
 

@@ -402,6 +402,86 @@
       );
     },
 
+    topicCard: function (t) {
+      var html =
+        '<li class="topic-deep" id="' +
+        escapeHtml(t.id || '') +
+        '"><strong class="topic-deep__title">' +
+        escapeHtml(t.title) +
+        '</strong><p class="topic-deep__summary">' +
+        escapeHtml(t.summary) +
+        '</p>';
+
+      if (t.explanation) {
+        html +=
+          '<div class="topic-deep__block"><h4>Core idea</h4><p>' + escapeHtml(t.explanation) + '</p></div>';
+      }
+      if (t.productionRelevance) {
+        html +=
+          '<div class="topic-deep__block"><h4>Production relevance</h4><p>' +
+          escapeHtml(t.productionRelevance) +
+          '</p></div>';
+      }
+      if (t.enterpriseInsights) {
+        html +=
+          '<div class="topic-deep__block"><h4>Enterprise angle</h4><p>' +
+          escapeHtml(t.enterpriseInsights) +
+          '</p></div>';
+      }
+      if (t.commonPitfalls && t.commonPitfalls.length) {
+        html += '<div class="topic-deep__block"><h4>Common pitfalls</h4><ul>';
+        t.commonPitfalls.forEach(function (p) {
+          html += '<li>' + escapeHtml(p) + '</li>';
+        });
+        html += '</ul></div>';
+      }
+      if (t.resources && t.resources.length) {
+        html += '<div class="topic-deep__block topic-deep__resources"><h4>Study resources</h4><ul class="resource-list">';
+        t.resources.forEach(function (r) {
+          var icon = r.type === 'youtube' ? '▶ ' : r.type === 'mdn' ? '📘 ' : '📄 ';
+          html +=
+            '<li><a class="resource-link resource-link--' +
+            escapeHtml(r.type || 'link') +
+            '" href="' +
+            escapeHtml(r.url) +
+            '" target="_blank" rel="noopener noreferrer">' +
+            icon +
+            escapeHtml(r.label) +
+            '</a></li>';
+        });
+        html += '</ul><p class="topic-deep__hint">Watch/read → then explain out loud → then rate yourself in Interview Questions below.</p></div>';
+      }
+      html += '</li>';
+      return html;
+    },
+
+    deliverableBlock: function (d) {
+      if (!d) return '';
+      var html =
+        '<h2 class="section-title">Day deliverable</h2><div class="deliverable-card"><h3>' +
+        escapeHtml(d.title) +
+        '</h3>';
+      if (d.rapidFireConcepts && d.rapidFireConcepts.length) {
+        html += '<h4>Rapid-fire</h4><ul>';
+        d.rapidFireConcepts.forEach(function (c) {
+          html += '<li>' + escapeHtml(c) + '</li>';
+        });
+        html += '</ul>';
+      }
+      if (d.implementationTasks && d.implementationTasks.length) {
+        html += '<h4>Implementation</h4><ul>';
+        d.implementationTasks.forEach(function (c) {
+          html += '<li>' + escapeHtml(c) + '</li>';
+        });
+        html += '</ul>';
+      }
+      if (d.verbalExplanationChallenge) {
+        html += '<h4>Verbal challenge</h4><p>' + escapeHtml(d.verbalExplanationChallenge) + '</p>';
+      }
+      html += '</div>';
+      return html;
+    },
+
     coachingQuestion: function (q, dayId, ratings) {
       ratings = ratings || {};
       var body =
@@ -422,7 +502,28 @@
         q.followUpQuestions.map(function (p) {
           return '<li>' + escapeHtml(p) + '</li>';
         }).join('') +
-        '</ul></div>' +
+        '</ul></div>';
+      if (q.architectureAngle) {
+        body +=
+          '<div class="coaching-block"><h4>Architecture angle</h4><p>' +
+          escapeHtml(q.architectureAngle) +
+          '</p></div>';
+      }
+      if (q.enterpriseTradeoffs && q.enterpriseTradeoffs.length) {
+        body += '<div class="coaching-block"><h4>Enterprise tradeoffs</h4><ul>';
+        q.enterpriseTradeoffs.forEach(function (p) {
+          body += '<li>' + escapeHtml(p) + '</li>';
+        });
+        body += '</ul></div>';
+      }
+      if (q.scalabilityDiscussion && q.scalabilityDiscussion.length) {
+        body += '<div class="coaching-block"><h4>Scalability</h4><ul>';
+        q.scalabilityDiscussion.forEach(function (p) {
+          body += '<li>' + escapeHtml(p) + '</li>';
+        });
+        body += '</ul></div>';
+      }
+      body +=
         '<div class="rating-row" data-question-id="' +
         q.id +
         '" data-day="' +
@@ -567,7 +668,9 @@
       var progress = Storage.getDayProgress(dayNum);
 
       document.getElementById('day-title').textContent = 'Day ' + dayNum + ' — ' + day.title;
-      document.getElementById('day-meta').textContent = 'Week ' + day.week + ' · War Room drill';
+      var meta = 'Week ' + day.week + ' · Study topics + resources → practice → interview coaching';
+      if (day.goal) meta += ' · ' + day.goal;
+      document.getElementById('day-meta').textContent = meta;
 
       var statusHtml = '';
       ['not_started', 'in_progress', 'completed', 'skipped'].forEach(function (st) {
@@ -584,14 +687,11 @@
 
       var content = '';
 
-      content += '<h2 class="section-title">Topics</h2><ul class="topic-list">';
+      content +=
+        '<p class="day-flow-hint">Flow: <strong>Study</strong> (topics + links) → <strong>Build</strong> (exercises in IDE) → <strong>Coach</strong> (questions + mock).</p>';
+      content += '<h2 class="section-title">Topics — study first</h2><ul class="topic-list topic-list--deep">';
       day.topics.forEach(function (t) {
-        content +=
-          '<li><strong>' +
-          escapeHtml(t.title) +
-          '</strong><br><span style="color:var(--muted);font-size:0.875rem">' +
-          escapeHtml(t.summary) +
-          '</span></li>';
+        content += IWR.Render.topicCard(t);
       });
       content += '</ul>';
 
@@ -622,6 +722,18 @@
           });
           content += '</ul>';
         }
+        ['debuggingMindset', 'memoryManagement', 'eventHandlerPatterns'].forEach(function (key) {
+          if (day.architecture[key] && day.architecture[key].length) {
+            var label = key.replace(/([A-Z])/g, ' $1').replace(/^./, function (c) {
+              return c.toUpperCase();
+            });
+            content += '<p style="margin-top:0.75rem;font-size:0.8rem;color:var(--muted)">' + escapeHtml(label) + '</p><ul>';
+            day.architecture[key].forEach(function (s) {
+              content += '<li>' + escapeHtml(s) + '</li>';
+            });
+            content += '</ul>';
+          }
+        });
         content += '</div>';
       }
 
@@ -646,13 +758,23 @@
           v.durationMinutes +
           ' min · ' +
           escapeHtml(v.structure.join(' → ')) +
-          '</p>' +
+          '</p>';
+        if (v.communicationCheckpoints && v.communicationCheckpoints.length) {
+          content += '<p class="card__label" style="margin-top:0.75rem">Checkpoints</p><ul>';
+          v.communicationCheckpoints.forEach(function (c) {
+            content += '<li>' + escapeHtml(c) + '</li>';
+          });
+          content += '</ul>';
+        }
+        content +=
           '<button type="button" class="btn btn--sm btn--primary" data-action="verbal-done" data-verbal="' +
           v.id +
           '">' +
           (done ? 'Completed ✓' : 'Mark verbal complete') +
           '</button></div>';
       });
+
+      content += IWR.Render.deliverableBlock(day.deliverable);
 
       content += '<h2 class="section-title">Revision</h2><ul class="exercise-list">';
       day.revision.forEach(function (r) {
